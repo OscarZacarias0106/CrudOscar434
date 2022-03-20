@@ -9,5 +9,14 @@ use Illuminate\Routing\Controller as BaseController;
 
 class Controller extends BaseController
 {
-    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    public function show($username)
+    {
+        try {
+            $user = (new UserService())->findByUsername($username);
+
+        } catch (ModelNotFoundException $exception) {
+            return view('users.notfound');
+        }
+        return view('users.show', compact('user'));
+    }
 }
